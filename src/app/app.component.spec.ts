@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { ApiService } from './common/api/api.service';
 import { DataService } from './common/data-service.service';
 import { HttpClientModule } from '@angular/common/http';
+import {BikePoint} from './models/bikePoint.model';
+import {BikePointAdditionalTypesInterface} from './interface/bikePointAdditionalTypes.interface';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,14 +16,12 @@ describe('AppComponent', () => {
 
   const apiResults = [
     {
-      $type: 'Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities',
       id: 'BikePoints_1',
       url: '/Place/BikePoints_1',
       commonName: 'River Street , Clerkenwell',
       placeType: 'BikePoint',
       additionalProperties: [
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'TerminalName',
           sourceSystemKey: 'BikePoints',
@@ -29,7 +29,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Installed',
           sourceSystemKey: 'BikePoints',
@@ -37,7 +36,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Locked',
           sourceSystemKey: 'BikePoints',
@@ -45,7 +43,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'InstallDate',
           sourceSystemKey: 'BikePoints',
@@ -53,7 +50,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'RemovalDate',
           sourceSystemKey: 'BikePoints',
@@ -61,7 +57,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Temporary',
           sourceSystemKey: 'BikePoints',
@@ -69,7 +64,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbBikes',
           sourceSystemKey: 'BikePoints',
@@ -77,7 +71,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbEmptyDocks',
           sourceSystemKey: 'BikePoints',
@@ -85,28 +78,25 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:37:08.277Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbDocks',
           sourceSystemKey: 'BikePoints',
           value: '19',
           modified: '2020-11-12T08:37:08.277Z'
         }
-      ],
+      ] as BikePointAdditionalTypesInterface[],
       children: [],
       childrenUrls: [],
       lat: 51.529163,
       lon: -0.10997
     },
     {
-      $type: 'Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities',
       id: 'BikePoints_2',
       url: '/Place/BikePoints_2',
       commonName: 'Phillimore Gardens, Kensington',
       placeType: 'BikePoint',
       additionalProperties: [
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'TerminalName',
           sourceSystemKey: 'BikePoints',
@@ -114,7 +104,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Installed',
           sourceSystemKey: 'BikePoints',
@@ -122,7 +111,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Locked',
           sourceSystemKey: 'BikePoints',
@@ -130,7 +118,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'InstallDate',
           sourceSystemKey: 'BikePoints',
@@ -138,7 +125,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'RemovalDate',
           sourceSystemKey: 'BikePoints',
@@ -146,7 +132,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Temporary',
           sourceSystemKey: 'BikePoints',
@@ -154,7 +139,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbBikes',
           sourceSystemKey: 'BikePoints',
@@ -162,7 +146,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbEmptyDocks',
           sourceSystemKey: 'BikePoints',
@@ -170,28 +153,25 @@ describe('AppComponent', () => {
           modified: '2020-11-12T09:04:43.73Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbDocks',
           sourceSystemKey: 'BikePoints',
           value: '37',
           modified: '2020-11-12T09:04:43.73Z'
         }
-      ],
+      ] as BikePointAdditionalTypesInterface[],
       children: [],
       childrenUrls: [],
       lat: 51.499606,
       lon: -0.197574
     },
     {
-      $type: 'Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities',
       id: 'BikePoints_3',
       url: '/Place/BikePoints_3',
       commonName: 'Christopher Street, Liverpool Street',
       placeType: 'BikePoint',
       additionalProperties: [
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'TerminalName',
           sourceSystemKey: 'BikePoints',
@@ -199,7 +179,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Installed',
           sourceSystemKey: 'BikePoints',
@@ -207,7 +186,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Locked',
           sourceSystemKey: 'BikePoints',
@@ -215,7 +193,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'InstallDate',
           sourceSystemKey: 'BikePoints',
@@ -223,7 +200,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'RemovalDate',
           sourceSystemKey: 'BikePoints',
@@ -231,7 +207,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'Temporary',
           sourceSystemKey: 'BikePoints',
@@ -239,7 +214,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbBikes',
           sourceSystemKey: 'BikePoints',
@@ -247,7 +221,6 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbEmptyDocks',
           sourceSystemKey: 'BikePoints',
@@ -255,20 +228,19 @@ describe('AppComponent', () => {
           modified: '2020-11-12T08:58:28.81Z'
         },
         {
-          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
           category: 'Description',
           key: 'NbDocks',
           sourceSystemKey: 'BikePoints',
           value: '32',
           modified: '2020-11-12T08:58:28.81Z'
         }
-      ],
+      ] as BikePointAdditionalTypesInterface[],
       children: [],
       childrenUrls: [],
       lat: 51.521283,
       lon: -0.084605
     },
-  ];
+  ] as BikePoint[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

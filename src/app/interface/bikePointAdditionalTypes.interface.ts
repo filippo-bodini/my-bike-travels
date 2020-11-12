@@ -1,4 +1,4 @@
-export interface BikePointAdditioanlTypesInterface {
+export interface BikePointAdditionalTypesInterface {
   category: string;
   key: string;
   modified: string;

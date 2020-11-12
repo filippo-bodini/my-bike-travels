@@ -1,11 +1,11 @@
-import {BikePointAdditioanlTypesInterface} from '../interface/bikePointAdditioanlTypes.interface';
+import {BikePointAdditionalTypesInterface} from '../interface/bikePointAdditionalTypes.interface';
 
 export class BikePoint {
-  additionalProperties: BikePointAdditioanlTypesInterface;
+  additionalProperties: BikePointAdditionalTypesInterface[];
   children: any[];
   childrenUrls: string[];
   commonName: string;
-  distance: number;
+  distance?: number;
   id: string;
   lat: number;
   lon: number;
