@@ -24,6 +24,9 @@ export class DataService {
   fetchBikePoints(): Promise<any> {
     const apiEndpoint = environment.apiTflEndpoint;
     const request = new ApiRequest('get', apiEndpoint);
-    return this.api.call(request);
+    return this.api.call(request).catch(error => {
+      console.warn(error);
+      return [];
+    });
   }
 }
