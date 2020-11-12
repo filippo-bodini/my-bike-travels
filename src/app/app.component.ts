@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.londonBikePoints = [];
+  async ngOnInit(): Promise<void> {
+    this.londonBikePoints = await this.dataService.fetchBikePoints();
   }
 }

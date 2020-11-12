@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ApiService } from './common/api/api.service';
@@ -6,6 +6,270 @@ import { DataService } from './common/data-service.service';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let spy;
+  let compiled;
+  let apiService: ApiService;
+
+  const apiResults = [
+    {
+      $type: 'Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities',
+      id: 'BikePoints_1',
+      url: '/Place/BikePoints_1',
+      commonName: 'River Street , Clerkenwell',
+      placeType: 'BikePoint',
+      additionalProperties: [
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'TerminalName',
+          sourceSystemKey: 'BikePoints',
+          value: '001023',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Installed',
+          sourceSystemKey: 'BikePoints',
+          value: 'true',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Locked',
+          sourceSystemKey: 'BikePoints',
+          value: 'false',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'InstallDate',
+          sourceSystemKey: 'BikePoints',
+          value: '1278947280000',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'RemovalDate',
+          sourceSystemKey: 'BikePoints',
+          value: '',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Temporary',
+          sourceSystemKey: 'BikePoints',
+          value: 'false',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbBikes',
+          sourceSystemKey: 'BikePoints',
+          value: '10',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbEmptyDocks',
+          sourceSystemKey: 'BikePoints',
+          value: '7',
+          modified: '2020-11-12T08:37:08.277Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbDocks',
+          sourceSystemKey: 'BikePoints',
+          value: '19',
+          modified: '2020-11-12T08:37:08.277Z'
+        }
+      ],
+      children: [],
+      childrenUrls: [],
+      lat: 51.529163,
+      lon: -0.10997
+    },
+    {
+      $type: 'Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities',
+      id: 'BikePoints_2',
+      url: '/Place/BikePoints_2',
+      commonName: 'Phillimore Gardens, Kensington',
+      placeType: 'BikePoint',
+      additionalProperties: [
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'TerminalName',
+          sourceSystemKey: 'BikePoints',
+          value: '001018',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Installed',
+          sourceSystemKey: 'BikePoints',
+          value: 'true',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Locked',
+          sourceSystemKey: 'BikePoints',
+          value: 'false',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'InstallDate',
+          sourceSystemKey: 'BikePoints',
+          value: '1278585780000',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'RemovalDate',
+          sourceSystemKey: 'BikePoints',
+          value: '',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Temporary',
+          sourceSystemKey: 'BikePoints',
+          value: 'false',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbBikes',
+          sourceSystemKey: 'BikePoints',
+          value: '14',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbEmptyDocks',
+          sourceSystemKey: 'BikePoints',
+          value: '21',
+          modified: '2020-11-12T09:04:43.73Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbDocks',
+          sourceSystemKey: 'BikePoints',
+          value: '37',
+          modified: '2020-11-12T09:04:43.73Z'
+        }
+      ],
+      children: [],
+      childrenUrls: [],
+      lat: 51.499606,
+      lon: -0.197574
+    },
+    {
+      $type: 'Tfl.Api.Presentation.Entities.Place, Tfl.Api.Presentation.Entities',
+      id: 'BikePoints_3',
+      url: '/Place/BikePoints_3',
+      commonName: 'Christopher Street, Liverpool Street',
+      placeType: 'BikePoint',
+      additionalProperties: [
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'TerminalName',
+          sourceSystemKey: 'BikePoints',
+          value: '001012',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Installed',
+          sourceSystemKey: 'BikePoints',
+          value: 'true',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Locked',
+          sourceSystemKey: 'BikePoints',
+          value: 'false',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'InstallDate',
+          sourceSystemKey: 'BikePoints',
+          value: '1278240360000',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'RemovalDate',
+          sourceSystemKey: 'BikePoints',
+          value: '',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'Temporary',
+          sourceSystemKey: 'BikePoints',
+          value: 'false',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbBikes',
+          sourceSystemKey: 'BikePoints',
+          value: '6',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbEmptyDocks',
+          sourceSystemKey: 'BikePoints',
+          value: '25',
+          modified: '2020-11-12T08:58:28.81Z'
+        },
+        {
+          $type: 'Tfl.Api.Presentation.Entities.AdditionalProperties, Tfl.Api.Presentation.Entities',
+          category: 'Description',
+          key: 'NbDocks',
+          sourceSystemKey: 'BikePoints',
+          value: '32',
+          modified: '2020-11-12T08:58:28.81Z'
+        }
+      ],
+      children: [],
+      childrenUrls: [],
+      lat: 51.521283,
+      lon: -0.084605
+    },
+  ];
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -20,32 +284,30 @@ describe('AppComponent', () => {
         ApiService
       ],
     }).compileComponents();
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    apiService = fixture.debugElement.injector.get(ApiService);
+    spy = spyOn(apiService, 'call').and.returnValue(Promise.resolve(apiResults));
+    compiled = fixture.debugElement.nativeElement;
+    await component.ngOnInit();
+    fixture.detectChanges();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
 
   it(`should have as title 'my-bike-travels'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('my-bike-travels');
   });
 
   it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
     expect(compiled.querySelector('.content span').textContent).toContain('my-bike-travels app is running!');
   });
 
   it('should fetch all London bike points', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const component = fixture.componentInstance;
-    component.ngOnInit();
-    fixture.detectChanges();
     expect(component.londonBikePoints.length).toBeGreaterThanOrEqual(1);
   });
 });
