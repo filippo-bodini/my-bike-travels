@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BikePoint} from './models/bikePoint.model';
 import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
+import {SearchLocation} from './models/searchLocation.model';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
           return -1;
         }
         return 1;
-      });
+      }) as SearchLocation[];
       this.selectedPlaces =  [...this.selectedPlaces, { direction, coordinates : foundPlace[0].geometry }];
 
       if (this.selectedPlaces.length > 1) {
