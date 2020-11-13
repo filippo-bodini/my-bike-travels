@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiTflEndpoint: 'https://api.tfl.gov.uk/BikePoint',
+  opencagedataEndpoint: 'https://api.opencagedata.com/geocode/v1/json',
+  opencagedataKey: 'e3005b4b1c7344568b1b70e324c3a7ff',
 };
 
 /*
