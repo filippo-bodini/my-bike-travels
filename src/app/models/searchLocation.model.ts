@@ -1,4 +1,4 @@
-import {LatLngInterface} from '../interface/latLan.interface';
+import {LatLngInterface} from '../interface/latLng.interface';
 
 export class SearchLocation {
   bounds: object;
