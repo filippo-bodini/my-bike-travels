@@ -37,8 +37,8 @@ export class AppComponent implements OnInit {
       // filter array for english place, sorted by best confidence and take the first element
       const foundPlace = response.results.filter(el => {
         return el.components.state_code === 'ENG' &&
-          el.geometry.lat < 53 && el.geometry.lat > 50 &&
-          el.geometry.lng < 2 && el.geometry.lng > -2;
+          el.geometry.lat < 52 && el.geometry.lat > 51 &&
+          el.geometry.lng < 1 && el.geometry.lng > -1;
       }).sort((first, next) => {
         if (first.confidence >= next.confidence) {
           return -1;
@@ -59,31 +59,28 @@ export class AppComponent implements OnInit {
   private evaluatePath(): void {
     let firstTravelBikePoint;
     let lastTravelBikePoint;
-    let minDistance = 0;
-    let d = 0;
+    let startMinDistance = 0;
+    let endMinDistance = 0;
+    let currentStartMinDistance = 0;
+    let currentEndMinDistance = 0;
     for (const bikePoint of this.londonBikePoints) {
-      d = (bikePoint.lat - this.selectedPlaces.from.lat) * (bikePoint.lat - this.selectedPlaces.from.lat) +
+      // check if this bike point is the nearest from start coordinates
+      currentStartMinDistance = (bikePoint.lat - this.selectedPlaces.from.lat) * (bikePoint.lat - this.selectedPlaces.from.lat) +
         (bikePoint.lon - this.selectedPlaces.from.lon) * (bikePoint.lon - this.selectedPlaces.from.lon);
-
-      if (minDistance === 0 || minDistance > d) {
-        minDistance = d;
+      if (startMinDistance === 0 || startMinDistance > currentStartMinDistance) {
+        startMinDistance = currentStartMinDistance;
         firstTravelBikePoint = bikePoint;
       }
-    }
-    d = 0;
-    minDistance = 0;
-    for (const bikePoint of this.londonBikePoints) {
-      d = (bikePoint.lat - this.selectedPlaces.to.lat) * (bikePoint.lat - this.selectedPlaces.to.lat) +
+      // check if this bike point is the nearest from end coordinates
+      currentEndMinDistance = (bikePoint.lat - this.selectedPlaces.to.lat) * (bikePoint.lat - this.selectedPlaces.to.lat) +
         (bikePoint.lon - this.selectedPlaces.to.lon) * (bikePoint.lon - this.selectedPlaces.to.lon);
-      if (minDistance === 0 || minDistance > d) {
-        minDistance = d;
+      if (endMinDistance === 0 || endMinDistance > currentEndMinDistance) {
+        endMinDistance = currentEndMinDistance;
         lastTravelBikePoint = bikePoint;
       }
     }
     this.startBikePointCoordinates = {lon: firstTravelBikePoint.lon, lat: firstTravelBikePoint.lat};
     this.endBikePointCoordinates = {lon: lastTravelBikePoint.lon, lat: lastTravelBikePoint.lat};
-    console.log(this.startBikePointCoordinates);
-    console.log(this.endBikePointCoordinates);
   }
 
   initCoordinates(): SearchCoordinates {
