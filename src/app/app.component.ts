@@ -3,6 +3,7 @@ import {BikePoint} from './models/bikePoint.model';
 import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
 import {SearchLocation} from './models/searchLocation.model';
+import {SearchCoordinates} from './interface/searchCoordinates.interface';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +14,14 @@ export class AppComponent implements OnInit {
   title = 'my-bike-travels';
   londonBikePoints: BikePoint[] = [];
   errorMessage: string;
-  selectedPlaces: any[] = [];
+  selectedPlaces: { from: {lat: number, lon: number}, to: {lat: number, lon: number} };
   startBikePointCoordinates: {lat: number, lon: number};
   endBikePointCoordinates: {lat: number, lon: number};
   constructor(private dataService: DataService, private logger: LoggerService) {
   }
 
   async ngOnInit(): Promise<void> {
+    this.selectedPlaces = this.initCoordinates();
     this.errorMessage = '';
     const londonBikePoints = await this.dataService.fetchBikePoints();
     if (londonBikePoints.length === 0) {
@@ -35,17 +37,17 @@ export class AppComponent implements OnInit {
       // filter array for english place, sorted by best confidence and take the first element
       const foundPlace = response.results.filter(el => {
         return el.components.state_code === 'ENG' &&
-          el.geometry.lat < 53 && el.geometry.lat > 50 &&
-          el.geometry.lng < 2 && el.geometry.lng > -2;
+          el.geometry.lat < 52 && el.geometry.lat > 51 &&
+          el.geometry.lng < 1 && el.geometry.lng > -1;
       }).sort((first, next) => {
         if (first.confidence >= next.confidence) {
           return -1;
         }
         return 1;
       }) as SearchLocation[];
-      this.selectedPlaces =  [...this.selectedPlaces, { direction, coordinates : foundPlace[0].geometry }];
-
-      if (this.selectedPlaces.length > 1) {
+      this.selectedPlaces[direction].lat =  foundPlace[0].geometry.lat;
+      this.selectedPlaces[direction].lon =  foundPlace[0].geometry.lng;
+      if (this.selectedPlaces.from.lat !== 0 && this.selectedPlaces.to.lat !== 0) {
         this.evaluatePath();
       }
     }).catch(error => {
@@ -55,16 +57,33 @@ export class AppComponent implements OnInit {
   }
 
   private evaluatePath(): void {
-    // filter and sort function may not be the fastest way to evaluate the distance between selectedPlaces and bikePoint
-    const distanceFrom = [];
+    let firstTravelBikePoint;
+    let lastTravelBikePoint;
+    let startMinDistance = 0;
+    let endMinDistance = 0;
+    let currentStartMinDistance = 0;
+    let currentEndMinDistance = 0;
     for (const bikePoint of this.londonBikePoints) {
-      distanceFrom.push(0);
+      // check if this bike point is the nearest from start coordinates
+      currentStartMinDistance = (bikePoint.lat - this.selectedPlaces.from.lat) * (bikePoint.lat - this.selectedPlaces.from.lat) +
+        (bikePoint.lon - this.selectedPlaces.from.lon) * (bikePoint.lon - this.selectedPlaces.from.lon);
+      if (startMinDistance === 0 || startMinDistance > currentStartMinDistance) {
+        startMinDistance = currentStartMinDistance;
+        firstTravelBikePoint = bikePoint;
+      }
+      // check if this bike point is the nearest from end coordinates
+      currentEndMinDistance = (bikePoint.lat - this.selectedPlaces.to.lat) * (bikePoint.lat - this.selectedPlaces.to.lat) +
+        (bikePoint.lon - this.selectedPlaces.to.lon) * (bikePoint.lon - this.selectedPlaces.to.lon);
+      if (endMinDistance === 0 || endMinDistance > currentEndMinDistance) {
+        endMinDistance = currentEndMinDistance;
+        lastTravelBikePoint = bikePoint;
+      }
     }
-    const distanceTo = [];
-    for (const bikePoint of this.londonBikePoints) {
-      distanceTo.push(0);
-    }
-    this.startBikePointCoordinates = { lat: 0, lon: 0 };
-    this.endBikePointCoordinates = { lat: 0, lon: 0 };
+    this.startBikePointCoordinates = {lon: firstTravelBikePoint.lon, lat: firstTravelBikePoint.lat};
+    this.endBikePointCoordinates = {lon: lastTravelBikePoint.lon, lat: lastTravelBikePoint.lat};
+  }
+
+  initCoordinates(): SearchCoordinates {
+    return { from: {lat: 0, lon: 0}, to: {lat: 0, lon: 0} } as SearchCoordinates;
   }
 }

@@ -953,7 +953,7 @@ describe('AppComponent', () => {
     expect(component.londonBikePoints.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('should display error if fetch all London bike points fails', async () => {
+  it('should display error if fetching London bike points fails', async () => {
     spy = spyOn(apiService, 'call').and.returnValue(Promise.reject('not found'));
     compiled = fixture.debugElement.nativeElement;
     await component.ngOnInit();
@@ -961,36 +961,22 @@ describe('AppComponent', () => {
     expect(component.londonBikePoints.length).toBeGreaterThanOrEqual(0);
   });
 
-  it('should fetch some "from" places after user search',  fakeAsync(() => {
+  it('should fetch places and coordinates after user search',  fakeAsync(() => {
     spy = null;
     spy = spyOn(apiService, 'call').and.returnValue(Promise.resolve(croydonResult));
     component.searchLocations('croydon', 'from');
     tick(1000);
     fixture.detectChanges();
-    expect(component.selectedPlaces.length).toBeGreaterThanOrEqual(1);
+    expect(component.selectedPlaces.from.lat).toBeGreaterThanOrEqual(0);
+    expect(component.selectedPlaces.from.lon).toBeLessThanOrEqual(0);
 
     // overwrite spyOn
     spy.and.returnValue(Promise.resolve(romfordResult));
     component.searchLocations('romford', 'to');
     tick(1000);
     fixture.detectChanges();
-    expect(component.selectedPlaces.length).toBeGreaterThanOrEqual(2);
-  }));
-
-  it('should set as coordinate only 1 found results',  fakeAsync(() => {
-    spy = null;
-    spy = spyOn(apiService, 'call').and.returnValue(Promise.resolve(croydonResult));
-    component.searchLocations('croydon', 'from');
-    tick(1000);
-    fixture.detectChanges();
-    spy.and.returnValue(Promise.resolve(romfordResult));
-    component.searchLocations('romford', 'to');
-    tick(1000);
-    fixture.detectChanges();
-    expect(component.selectedPlaces[0].coordinates).toBeDefined();
-    expect(component.selectedPlaces[0].coordinates).toBeInstanceOf(Object);
-    expect(component.selectedPlaces[1].coordinates).toBeDefined();
-    expect(component.selectedPlaces[1].coordinates).toBeInstanceOf(Object);
+    expect(component.selectedPlaces.to.lat).toBeGreaterThanOrEqual(0);
+    expect(component.selectedPlaces.to.lon).toBeGreaterThanOrEqual(0);
   }));
 
   it('should display an error if at least one place is not found',  fakeAsync(() => {
@@ -1003,6 +989,7 @@ describe('AppComponent', () => {
   }));
 
   it('should always find a nearest bikePoint for every chosen coordinates',  fakeAsync(() => {
+    component.londonBikePoints = apiResults;
     spy = null;
     spy = spyOn(apiService, 'call').and.returnValue(Promise.resolve(croydonResult));
     component.searchLocations('croydon', 'from');
