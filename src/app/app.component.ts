@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     this.dataService.getPlacesCoordinatesByName(location).then(response => {
 
       // filter array for english place, sorted by best confidence and take the first element
-      const foundPlace = response.results.filter(el => {
+      const foundPlaces = response.results.filter(el => {
         return el.components.country_code === 'gb' &&
           el.geometry.lat < 52 && el.geometry.lat > 51 &&
           el.geometry.lng < 1 && el.geometry.lng > -1;
@@ -59,10 +59,14 @@ export class AppComponent implements OnInit {
         }
         return 1;
       }) as SearchLocation[];
-      this.selectedPlaces[direction].lat =  foundPlace[0].geometry.lat;
-      this.selectedPlaces[direction].lon =  foundPlace[0].geometry.lng;
-      if (this.selectedPlaces.from.lat !== 0 && this.selectedPlaces.to.lat !== 0) {
-        this.evaluatePath();
+      if (!foundPlaces.length) {
+        this.errorMessage = 'Unable to find x/y coordinates for "' + location + '" location!';
+      } else {
+        this.selectedPlaces[direction].lat =  foundPlaces[0].geometry.lat;
+        this.selectedPlaces[direction].lon =  foundPlaces[0].geometry.lng;
+        if (this.selectedPlaces.from.lat !== 0 && this.selectedPlaces.to.lat !== 0) {
+          this.evaluatePath();
+        }
       }
     }).catch(error => {
       this.errorMessage = 'Unable to find x/y coordinates for "' + location + '" location!';
