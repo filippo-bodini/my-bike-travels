@@ -7,6 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import {BikePoint} from './models/bikePoint.model';
 import {BikePointAdditionalTypesInterface} from './interface/bikePointAdditionalTypes.interface';
 import {LoggerService} from './common/logger.service';
+import {FormBuilder} from '@angular/forms';
+import {AgmCoreModule} from '@agm/core';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -908,7 +910,10 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        HttpClientModule
+        HttpClientModule,
+        AgmCoreModule.forRoot({
+          apiKey: ''
+        }),
       ],
       declarations: [
         AppComponent
@@ -916,7 +921,8 @@ describe('AppComponent', () => {
       providers: [
         DataService,
         ApiService,
-        LoggerService
+        LoggerService,
+        FormBuilder,
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
@@ -939,10 +945,6 @@ describe('AppComponent', () => {
   it(`should have as title 'my-bike-travels'`, () => {
     const app = fixture.componentInstance;
     expect(app.title).toEqual('my-bike-travels');
-  });
-
-  it('should render title', () => {
-    expect(compiled.querySelector('.content span').textContent).toContain('my-bike-travels app is running!');
   });
 
   it('should fetch all London bike points', async () => {
