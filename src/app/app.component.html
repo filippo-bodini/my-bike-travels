@@ -47,5 +47,12 @@
 
 
   </div>
+  <div class="map-container">
+    <agm-map [latitude]="londonLat" [longitude]="londonLon" [zoom]="9">
+      <ng-container *ngFor="let maker of markers">
+        <agm-marker *ngIf="markerEnabled" [latitude]="maker.lat" [longitude]="maker.lng"></agm-marker>
+      </ng-container>
+    </agm-map>
+  </div>
 
 <router-outlet></router-outlet>

@@ -12,6 +12,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
+  londonLat: number = 51.509865;
+  londonLon: number = -0.118092;
+  markerEnabled: boolean;
+  markers: any[];
   title = 'my-bike-travels';
   londonBikePoints: BikePoint[] = [];
   errorMessage: string;
@@ -23,6 +27,7 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    this.markerEnabled = false;
     this.inputPlaces = this.fb.group({
       start: ['', Validators.required],
       end: ['', Validators.required]
@@ -33,13 +38,14 @@ export class AppComponent implements OnInit {
     if (londonBikePoints.length === 0) {
       this.errorMessage = 'Unable to fetch bike points!';
     } else {
-      this.londonBikePoints = [...this.londonBikePoints, londonBikePoints];
+      this.londonBikePoints = londonBikePoints;
     }
   }
 
   public searchLocations(): void {
     const val = this.inputPlaces.getRawValue();
     if (val && val.start && val.end) {
+      this.markerEnabled = false;
       this.searchLocation(val.start, 'from');
       this.searchLocation(val.end, 'to');
     }
@@ -74,7 +80,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public evaluatePath(form: any = {}): void {
+  public evaluatePath(): void {
     let firstTravelBikePoint;
     let lastTravelBikePoint;
     let startMinDistance = 0;
@@ -99,6 +105,33 @@ export class AppComponent implements OnInit {
     }
     this.startBikePointCoordinates = {lon: firstTravelBikePoint.lon, lat: firstTravelBikePoint.lat};
     this.endBikePointCoordinates = {lon: lastTravelBikePoint.lon, lat: lastTravelBikePoint.lat};
+    this.markers = [
+      {
+        lat: this.selectedPlaces.from.lat,
+        lng: this.selectedPlaces.from.lon,
+        label: 'A',
+        draggable: false
+      },
+      {
+        lat: this.startBikePointCoordinates.lat,
+        lng: this.startBikePointCoordinates.lon,
+        label: 'B',
+        draggable: false
+      },
+      {
+        lat: this.endBikePointCoordinates.lat,
+        lng: this.endBikePointCoordinates.lon,
+        label: 'C',
+        draggable: false
+      },
+      {
+        lat: this.selectedPlaces.to.lat,
+        lng: this.selectedPlaces.to.lon,
+        label: 'D',
+        draggable: false
+      }
+    ];
+    this.markerEnabled = true;
   }
 
   initCoordinates(): SearchCoordinates {
