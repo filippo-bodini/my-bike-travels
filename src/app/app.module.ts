@@ -7,6 +7,8 @@ import {DataService} from './common/data-service.service';
 import {ApiService} from './common/api/api.service';
 import {RouterModule} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import {HttpClientModule} from '@angular/common/http';
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
   ],
   providers: [DataService, ApiService],
   bootstrap: [AppComponent]

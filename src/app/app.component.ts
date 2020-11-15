@@ -4,6 +4,7 @@ import {DataService} from './common/data-service.service';
 import {LoggerService} from './common/logger.service';
 import {SearchLocation} from './models/searchLocation.model';
 import {SearchCoordinates} from './interface/searchCoordinates.interface';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +18,15 @@ export class AppComponent implements OnInit {
   selectedPlaces: { from: {lat: number, lon: number}, to: {lat: number, lon: number} };
   startBikePointCoordinates: {lat: number, lon: number};
   endBikePointCoordinates: {lat: number, lon: number};
-  constructor(private dataService: DataService, private logger: LoggerService) {
+  inputPlaces: FormGroup;
+  constructor(private dataService: DataService, private logger: LoggerService, private fb: FormBuilder) {
   }
 
   async ngOnInit(): Promise<void> {
+    this.inputPlaces = this.fb.group({
+      start: ['', Validators.required],
+      end: ['', Validators.required]
+      });
     this.selectedPlaces = this.initCoordinates();
     this.errorMessage = '';
     const londonBikePoints = await this.dataService.fetchBikePoints();
@@ -31,12 +37,20 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public searchLocations(location, direction): void {
+  public searchLocations(): void {
+    const val = this.inputPlaces.getRawValue();
+    if (val && val.start && val.end) {
+      this.searchLocation(val.start, 'from');
+      this.searchLocation(val.end, 'to');
+    }
+  }
+
+  public searchLocation(location: string, direction: string): void {
     this.dataService.getPlacesCoordinatesByName(location).then(response => {
 
       // filter array for english place, sorted by best confidence and take the first element
       const foundPlace = response.results.filter(el => {
-        return el.components.state_code === 'ENG' &&
+        return el.components.country_code === 'gb' &&
           el.geometry.lat < 52 && el.geometry.lat > 51 &&
           el.geometry.lng < 1 && el.geometry.lng > -1;
       }).sort((first, next) => {
@@ -56,7 +70,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private evaluatePath(): void {
+  public evaluatePath(form: any = {}): void {
     let firstTravelBikePoint;
     let lastTravelBikePoint;
     let startMinDistance = 0;
