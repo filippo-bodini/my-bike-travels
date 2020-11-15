@@ -964,7 +964,7 @@ describe('AppComponent', () => {
   it('should fetch places and coordinates after user search',  fakeAsync(() => {
     spy = null;
     spy = spyOn(apiService, 'call').and.returnValue(Promise.resolve(croydonResult));
-    component.searchLocations('croydon', 'from');
+    component.searchLocation('croydon', 'from');
     tick(1000);
     fixture.detectChanges();
     expect(component.selectedPlaces.from.lat).toBeGreaterThanOrEqual(0);
@@ -972,7 +972,7 @@ describe('AppComponent', () => {
 
     // overwrite spyOn
     spy.and.returnValue(Promise.resolve(romfordResult));
-    component.searchLocations('romford', 'to');
+    component.searchLocation('romford', 'to');
     tick(1000);
     fixture.detectChanges();
     expect(component.selectedPlaces.to.lat).toBeGreaterThanOrEqual(0);
@@ -982,7 +982,7 @@ describe('AppComponent', () => {
   it('should display an error if at least one place is not found',  fakeAsync(() => {
     spy = null;
     spy = spyOn(apiService, 'call').and.returnValue(Promise.reject('not found'));
-    component.searchLocations('croydon', 'from');
+    component.searchLocation('croydon', 'from');
     tick(1000);
     fixture.detectChanges();
     expect(component.errorMessage.length).toBeGreaterThanOrEqual(1);
@@ -992,11 +992,11 @@ describe('AppComponent', () => {
     component.londonBikePoints = apiResults;
     spy = null;
     spy = spyOn(apiService, 'call').and.returnValue(Promise.resolve(croydonResult));
-    component.searchLocations('croydon', 'from');
+    component.searchLocation('croydon', 'from');
     tick(1000);
     fixture.detectChanges();
     spy.and.returnValue(Promise.resolve(romfordResult));
-    component.searchLocations('romford', 'to');
+    component.searchLocation('romford', 'to');
     tick(1000);
     fixture.detectChanges();
     expect(component.startBikePointCoordinates.lat).toBeGreaterThan(0);
