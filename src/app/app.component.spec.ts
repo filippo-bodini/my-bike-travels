@@ -990,7 +990,7 @@ describe('AppComponent', () => {
     expect(component.errorMessage.length).toBeGreaterThanOrEqual(1);
   }));
 
-  it('should always find a nearest bikePoint for every chosen coordinates',  fakeAsync(() => {
+  it('should always find a nearest bikePoint for every found places',  fakeAsync(() => {
     component.londonBikePoints = apiResults;
     spy = null;
     spy = spyOn(apiService, 'call').and.returnValue(Promise.resolve(croydonResult));
@@ -1006,4 +1006,10 @@ describe('AppComponent', () => {
     expect(component.endBikePointCoordinates.lat).toBeGreaterThan(0);
     expect(component.endBikePointCoordinates.lon).toBeLessThan(0);
   }));
+
+  it('should display a map', () => {
+    compiled = fixture.nativeElement;
+    expect(compiled.querySelector('.map-container')).toBeTruthy();
+  });
+
 });
