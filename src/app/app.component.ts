@@ -91,6 +91,7 @@ export class AppComponent implements OnInit {
     let endMinDistance = 0;
     let currentStartMinDistance = 0;
     let currentEndMinDistance = 0;
+
     for (const bikePoint of this.londonBikePoints) {
       // check if this bike point is the nearest from start coordinates
       currentStartMinDistance = Math.pow((bikePoint.lat - this.selectedPlaces.from.lat), 2) +
@@ -107,6 +108,7 @@ export class AppComponent implements OnInit {
         lastTravelBikePoint = bikePoint;
       }
     }
+
     this.startBikePointCoordinates = {lon: firstTravelBikePoint.lon, lat: firstTravelBikePoint.lat};
     this.endBikePointCoordinates = {lon: lastTravelBikePoint.lon, lat: lastTravelBikePoint.lat};
     this.markers = [
