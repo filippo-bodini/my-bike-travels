@@ -1012,4 +1012,11 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('.map-container')).toBeTruthy();
   });
 
+  it('should not allow same origin and destination place', () => {
+    component.inputPlaces.controls['start'].setValue('romford');
+    component.inputPlaces.controls['end'].setValue('romford');
+    component.searchLocations();
+    expect(component.errorMessage.length).toBeGreaterThanOrEqual(1);
+    fixture.detectChanges();
+  });
 });
