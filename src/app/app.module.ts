@@ -9,6 +9,7 @@ import {RouterModule} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
+import {AgmCoreModule} from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,9 @@ import {ReactiveFormsModule} from '@angular/forms';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    AgmCoreModule.forRoot({
+      apiKey: ''
+    }),
   ],
   providers: [DataService, ApiService],
   bootstrap: [AppComponent]
