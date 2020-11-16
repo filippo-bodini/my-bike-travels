@@ -21,21 +21,21 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">From</span>
         </div>
-        <input type="text" class="form-control" placeholder="Starting point" aria-label="Starting point" aria-describedby="basic-addon1"
+        <input type="text" class="form-control" placeholder="Starting point" aria-label="Starting point" aria-describedby="basic-addon1" id="starting-point"
                formControlName="start" [class.error]="inputPlaces.controls.start.invalid && inputPlaces.controls.start.touched">
       </div>
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon2">To</span>
         </div>
-        <input type="text" class="form-control" placeholder="Destination" aria-label="Destination" aria-describedby="basic-addon1"
+        <input type="text" class="form-control" placeholder="Destination" aria-label="Destination" aria-describedby="basic-addon1" id="finish-point"
                [class.error]="inputPlaces.controls.end.invalid && inputPlaces.controls.end.touched" formControlName="end">
       </div>
       <div class="input-group mb-3" *ngIf="errorMessage">
           <span>{{errorMessage}}</span>
       </div>
       <div class="input-group mb-3">
-        <button class="btn submit-btn" type="submit" [disabled]="!inputPlaces.valid">
+        <button class="btn submit-btn" type="submit" [disabled]="!inputPlaces.valid" id="evaluate-path">
           <span>Check coordinates</span>
         </button>
       </div>
