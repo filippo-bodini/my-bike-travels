@@ -2,6 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
+## How it works
+
+Simply type two places near London that you see in the map (like a near town, district or neighborhood), one for starting point and one for destination.
+The application gives you the nearest bikePoint to take your bike and the nearest point to the destination where you can give back.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -20,7 +25,7 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `npx cypress open` to execute the end-to-end tests via Cypress).
 
 ## Further help
 
