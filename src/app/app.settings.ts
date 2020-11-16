@@ -1,0 +1,9 @@
+export const appSettings = {
+  LONDON_MAX_LAT: 52,
+  LONDON_MIN_LAT: 51,
+  LONDON_LAT: 51.509865,
+  LONDON_LON: -0.118092,
+  LONDON_MIN_LON: -1,
+  LONDON_MAX_LON: 1,
+  LONDON_COUNTRY_CODE: 'gb',
+};

@@ -5,6 +5,8 @@ import {LoggerService} from './common/logger.service';
 import {SearchLocation} from './models/searchLocation.model';
 import {SearchCoordinates} from './interface/searchCoordinates.interface';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {SingleCordinate} from './interface/singleCoordinate.interface';
+import {appSettings} from './app.settings';
 
 @Component({
   selector: 'app-root',
@@ -12,17 +14,18 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent implements OnInit {
-  londonLat: number = 51.509865;
-  londonLon: number = -0.118092;
+  londonLat: number = appSettings.LONDON_LAT;
+  londonLon: number = appSettings.LONDON_LON;
   markerEnabled: boolean;
   markers: any[];
   title = 'my-bike-travels';
   londonBikePoints: BikePoint[] = [];
   errorMessage: string;
-  selectedPlaces: { from: {lat: number, lon: number}, to: {lat: number, lon: number} };
-  startBikePointCoordinates: {lat: number, lon: number};
-  endBikePointCoordinates: {lat: number, lon: number};
+  selectedPlaces: SearchCoordinates;
+  startBikePointCoordinates: SingleCordinate;
+  endBikePointCoordinates: SingleCordinate;
   inputPlaces: FormGroup;
+
   constructor(private dataService: DataService, private logger: LoggerService, private fb: FormBuilder) {
   }
 
@@ -57,8 +60,8 @@ export class AppComponent implements OnInit {
       // filter array for english place, sorted by best confidence and take the first element
       const foundPlaces = response.results.filter(el => {
         return el.components.country_code === 'gb' &&
-          el.geometry.lat < 52 && el.geometry.lat > 51 &&
-          el.geometry.lng < 1 && el.geometry.lng > -1;
+          el.geometry.lat < appSettings.LONDON_MAX_LAT && el.geometry.lat > appSettings.LONDON_MIN_LAT &&
+          el.geometry.lng < appSettings.LONDON_MAX_LON && el.geometry.lng > appSettings.LONDON_MIN_LON;
       }).sort((first, next) => {
         if (first.confidence >= next.confidence) {
           return -1;
@@ -89,15 +92,15 @@ export class AppComponent implements OnInit {
     let currentEndMinDistance = 0;
     for (const bikePoint of this.londonBikePoints) {
       // check if this bike point is the nearest from start coordinates
-      currentStartMinDistance = (bikePoint.lat - this.selectedPlaces.from.lat) * (bikePoint.lat - this.selectedPlaces.from.lat) +
-        (bikePoint.lon - this.selectedPlaces.from.lon) * (bikePoint.lon - this.selectedPlaces.from.lon);
+      currentStartMinDistance = Math.pow((bikePoint.lat - this.selectedPlaces.from.lat), 2) +
+        Math.pow((bikePoint.lon - this.selectedPlaces.from.lon), 2);
       if (startMinDistance === 0 || startMinDistance > currentStartMinDistance) {
         startMinDistance = currentStartMinDistance;
         firstTravelBikePoint = bikePoint;
       }
       // check if this bike point is the nearest from end coordinates
-      currentEndMinDistance = (bikePoint.lat - this.selectedPlaces.to.lat) * (bikePoint.lat - this.selectedPlaces.to.lat) +
-        (bikePoint.lon - this.selectedPlaces.to.lon) * (bikePoint.lon - this.selectedPlaces.to.lon);
+      currentEndMinDistance = Math.pow((bikePoint.lat - this.selectedPlaces.to.lat), 2) +
+        Math.pow((bikePoint.lon - this.selectedPlaces.to.lon), 2);
       if (endMinDistance === 0 || endMinDistance > currentEndMinDistance) {
         endMinDistance = currentEndMinDistance;
         lastTravelBikePoint = bikePoint;
