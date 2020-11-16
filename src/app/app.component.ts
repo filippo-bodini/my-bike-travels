@@ -7,6 +7,7 @@ import {SearchCoordinates} from './interface/searchCoordinates.interface';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SingleCordinate} from './interface/singleCoordinate.interface';
 import {appSettings} from './app.settings';
+import {MarkerInterface} from './interface/marker.interface';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
   londonLat: number = appSettings.LONDON_LAT;
   londonLon: number = appSettings.LONDON_LON;
   markerEnabled: boolean;
-  markers: any[];
+  markers: MarkerInterface[];
   title = 'my-bike-travels';
   londonBikePoints: BikePoint[] = [];
   errorMessage: string;
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit {
 
       // filter array for english place, sorted by best confidence and take the first element
       const foundPlaces = response.results.filter(el => {
-        return el.components.country_code === 'gb' &&
+        return el.components.country_code === appSettings.LONDON_COUNTRY_CODE &&
           el.geometry.lat < appSettings.LONDON_MAX_LAT && el.geometry.lat > appSettings.LONDON_MIN_LAT &&
           el.geometry.lng < appSettings.LONDON_MAX_LON && el.geometry.lng > appSettings.LONDON_MIN_LON;
       }).sort((first, next) => {
