@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     this.inputPlaces = this.fb.group({
       start: ['', Validators.required],
       end: ['', Validators.required]
-      });
+      }, {validator: this.checkIfSamePoint('start', 'end')});
     this.selectedPlaces = this.initCoordinates();
     this.errorMessage = '';
     const londonBikePoints = await this.dataService.fetchBikePoints();
@@ -49,6 +49,10 @@ export class AppComponent implements OnInit {
   public searchLocations(): void {
     const val = this.inputPlaces.getRawValue();
     if (val && val.start && val.end) {
+      if (val.start === val.end) {
+        this.errorMessage = 'Please, select two different locations.';
+        return;
+      }
       this.markerEnabled = false;
       this.searchLocation(val.start, 'from');
       this.searchLocation(val.end, 'to');
@@ -140,7 +144,18 @@ export class AppComponent implements OnInit {
     this.markerEnabled = true;
   }
 
-  initCoordinates(): SearchCoordinates {
+  private initCoordinates(): SearchCoordinates {
     return { from: {lat: 0, lon: 0}, to: {lat: 0, lon: 0} } as SearchCoordinates;
+  }
+
+  private checkIfSamePoint(start: string, end: string): (group: FormGroup) => void {
+    return (group: FormGroup) => {
+      const startdInput = group.controls[start];
+      const endInput = group.controls[end];
+      if (startdInput.value.toLowerCase() === endInput.value.toLowerCase()) {
+        return endInput.setErrors({Equivalent: true});
+      }
+      return endInput.setErrors(null);
+    };
   }
 }
